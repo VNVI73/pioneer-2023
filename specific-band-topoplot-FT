@@ -11,15 +11,15 @@ EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file pa
 EEGData = EEG.data;
 
 # define the Fourier transform parameters
-N = size(EEGData, 2); % Number of data points
-fs = EEG.srate; % Sampling rate
-frequencies = 0:fs/N:(fs/2); % Frequency values for plotting (up to Nyquist frequency)
+N = size(EEGData, 2); # number of data points
+fs = EEG.srate; # sampling rate
+frequencies = 0:fs/N:(fs/2); # frequency values for plotting (up to Nyquist frequency)
 
-fftData = fft(EEGData, [], 2); % Calculate the Fourier transform of EEG data
-powerSpectrum = abs(fftData).^2; % Calculate the power spectrum (absolute squared values)
+fftData = fft(EEGData, [], 2); # calculate the Fourier transform of EEG data
+powerSpectrum = abs(fftData).^2; # calculate the power spectrum (absolute squared values)
 
-alphaBand = [8 13]; % Alpha band (8-13 Hz) # define the frequency bands of interest (adjust as needed)
-alphaBandIndices = find(frequencies >= alphaBand(1) & frequencies <= alphaBand(2)); %# find the indices corresponding to the alpha band frequencies
+alphaBand = [8 13]; # alpha band (8-13 Hz) # define the frequency bands of interest (adjust as needed)
+alphaBandIndices = find(frequencies >= alphaBand(1) & frequencies <= alphaBand(2)); # find the indices corresponding to the alpha band frequencies
 alphaPower = mean(powerSpectrum(:, alphaBandIndices), 2); # Calculate the average power within the alpha band for each channel
 
 topoplot(alphaPower, EEG.chanlocs, 'electrodes', 'on'); # Plot the topographic map of average alpha power
