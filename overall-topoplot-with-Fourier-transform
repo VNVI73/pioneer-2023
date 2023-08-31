@@ -1,0 +1,22 @@
+% Load EEGLAB and FieldTrip (adjust the paths as needed)
+cd '[insert EEGLAB path]'
+eeglab
+cd '[insert Fieldtrip path]'
+ft_defaults;
+
+%load the data (pre-processing is done beforehand)
+EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file path]'); %adjust dataset and path name as needed
+EEGData = EEG.data;
+
+% Define the Fourier transform parameters
+N = size(EEGData, 2); % Number of data points
+fs = EEG.srate; % Sampling rate
+frequencies = 0:fs/N:(fs/2); % Frequency values for plotting (up to Nyquist frequency)
+
+fftData = fft(EEGData, [], 2); % Calculate the Fourier transform of EEG data
+powerSpectrum = abs(fftData).^2; % Calculate the power spectrum (absolute squared values)
+avgPowerSpectrum = mean(powerSpectrum, 1); % Calculate the average power across all channels
+
+% Plot the topographic map of the average power spectrum.
+topoplot(avgPowerSpectrum, EEG.chanlocs, 'electrodes', 'on');
+colorbar;
