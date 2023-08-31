@@ -1,21 +1,21 @@
-t = linspace(0, 1, 1024); % Time vector
+t = linspace(0, 1, 1024); # Time vector
 signal = sin(2*pi*100*t) + cos(2*pi*350*t) + cos(2*pi*410*t) + sin(2*pi*500*t);
 
-% Perform the FFT
+# Perform the FFT
 signal_fft = fft(signal);
 
-% Calculate the frequency axis
-fs = 1 / (t(2) - t(1)); % Sampling frequency
-frequencies = fs * (0:(length(signal)/2)) / length(signal); % Frequency axis
+# Calculate the frequency axis
+fs = 1 / (t(2) - t(1)); # Sampling frequency
+frequencies = fs * (0:(length(signal)/2)) / length(signal); # Frequency axis
 
-% Plot the original complex signal
+# Plot the original complex signal
 subplot(2, 1, 1);
 plot(t, signal);
 title('Complex Signal');
 xlabel('Time');
 ylabel('Amplitude');
 
-% Plot the frequency-domain representation
+# Plot the frequency-domain representation
 subplot(2, 1, 2);
 plot(frequencies, abs(signal_fft(1:length(signal)/2 + 1)));
 title('Frequency Domain Representation (FFT)');
