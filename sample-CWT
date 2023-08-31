@@ -1,0 +1,29 @@
+# This is the code for the sample CWT analysis with Morelet wavelets
+# Define the sample signal (Gaussian signal in this case)
+t = linspace(0, 1, 1024); # Time vector
+f_signal = exp(-100 * (t - 0.5).^2); # Gaussian signal
+
+# Perform the Continuous Wavelet Transform (CWT)
+# You can choose different wavelet families and parameters based on your needs.
+scales = linspace(1, 128, 256); # Scale values for the wavelet
+wavelet = 'morl'; # Example wavelet (Morlet)
+cwtcoeffs = cwt(f_signal, scales, wavelet);
+
+# Plot the original signal
+subplot(2, 1, 1);
+plot(t, f_signal);
+title('Original Signal');
+xlabel('Time');
+ylabel('Amplitude');
+
+# Plot the time-frequency representation
+subplot(2, 1, 2);
+imagesc(t, scales, abs(cwtcoeffs));
+colormap jet;
+title('Wavelet Transform (Time-Frequency Representation)');
+xlabel('Time');
+ylabel('Scale');
+colorbar;
+
+# Adjust the color axis for better visualization
+caxis([0, max(abs(cwtcoeffs(:)))]);
