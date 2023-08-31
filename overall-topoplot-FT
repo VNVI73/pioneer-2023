@@ -1,11 +1,11 @@
-% Load EEGLAB and FieldTrip (adjust the paths as needed)
+% load EEGLAB and FieldTrip (adjust the paths as needed)
 cd '[insert EEGLAB path]'
 eeglab
 cd '[insert Fieldtrip path]'
 ft_defaults;
 
-%load the data (pre-processing is done beforehand)
-EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file path]'); %adjust dataset and path name as needed
+% load the data (pre-processing is done beforehand)
+EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file path]'); % adjust dataset and path name as needed
 EEGData = EEG.data;
 
 % Define the Fourier transform parameters
