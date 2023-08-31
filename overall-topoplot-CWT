@@ -1,0 +1,27 @@
+# load EEGLAB and FieldTrip (adjust the paths as needed)
+cd '[insert EEGLAB path]'
+eeglab
+cd '[insert Fieldtrip path]'
+ft_defaults;
+
+# load the data (pre-processing is done beforehand)
+EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file path]'); % adjust dataset and path name as needed
+EEGData = EEG.data;
+
+# define the CWT parameters.
+wavelet = 'morl'; # Morlet wavelet (commonly used in EEG analysis)
+scales = 1:0.5:50; # scale range for the wavelet transform
+fs = EEG.srate; # sampling rate
+
+# perform the continuous wavelet transform (CWT).
+cwt_data = cwt(EEGData, scales, wavelet);
+
+# calculate the power of the CWT coefficients (squared magnitude).
+power_cwt = abs(cwt_data).^2;
+
+# calculate the average power across all channels
+avg_power_cwt = mean(power_cwt, 1);
+
+# plot the topographic map of the average CWT power.
+topoplot(avg_power_cwt, EEG.chanlocs, 'electrodes', 'on');
+colorbar;
