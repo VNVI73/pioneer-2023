@@ -1,3 +1,15 @@
+# This is the code for the alpha band; adjust as necessary for the other four frequency bands
+
+# load EEGLAB and FieldTrip (adjust the paths as needed)
+cd '[insert EEGLAB path]'
+eeglab
+cd '[insert Fieldtrip path]'
+ft_defaults;
+
+# load the data (pre-processing is done beforehand)
+EEG = pop_loadset('filename', '[insert file name]', 'filepath', '[insert file path]'); % adjust dataset and path name as needed
+EEGData = EEG.data;
+
 # define the CWT parameters.
 wavelet = 'morl'; # Morlet wavelet (commonly used in EEG analysis)
 scales = 1:0.5:50; # scale range for the wavelet transform
