@@ -1,27 +1,25 @@
-t = linspace(0, 1, 1024); # Time vector
-signal = sin(2*pi*100*t) + cos(2*pi*350*t) + cos(2*pi*410*t) + sin(2*pi*500*t);
+# Sample function: Gaussian
+t = -1:0.001:1;  % Time vector
+gaussian = exp(-t.^2/(2*0.1^2));
 
-# Perform the Continuous Wavelet Transform (CWT)
-# You can choose different wavelet families and parameters based on your needs.
-scales = linspace(1, 128, 256); # Scale values for the wavelet
-wavelet = 'cmor1.5-1'; # Example wavelet (complex Morlet)
-cwtcoeffs = cwt(signal, scales, wavelet);
+# Compute CWT
+scales = 1:0.1:10;  % Wavelet scales
+cwt_result = cwt(gaussian, scales, 'gaus1');
 
-# Plot the original complex signal
-subplot(2, 1, 1);
-plot(t, signal);
-title('Complex Signal');
+# Convert scales to frequencies using scal2frq
+Fs = 1000;  % Sampling frequency
+frequencies = scal2frq(scales, 'gaus1', 1/Fs);
+
+# Plot the Gaussian and its CWT in terms of frequency
+figure;
+subplot(2,1,1);
+plot(t, gaussian);
+title('Gaussian Function');
 xlabel('Time');
 ylabel('Amplitude');
 
-# Plot the time-frequency representation
-subplot(2, 1, 2);
-imagesc(t, scales, abs(cwtcoeffs));
-colormap jet;
-title('Wavelet Transform (Time-Frequency Representation)');
+subplot(2,1,2);
+imagesc(t, frequencies, abs(cwt_result));
 xlabel('Time');
-ylabel('Scale');
+ylabel('Frequency (Hz)');
 colorbar;
-
-% Adjust the color axis for better visualization
-caxis([0, max(abs(cwtcoeffs(:)))]);
