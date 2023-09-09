@@ -1,23 +1,24 @@
-t = linspace(0, 1, 1024); # Time vector
-signal = sin(2*pi*100*t) + cos(2*pi*350*t) + cos(2*pi*410*t) + sin(2*pi*500*t);
+# Sample function: Gaussian
+t = -1:0.001:1;  % Time vector
+gaussian = exp(-t.^2/(2*0.1^2));
 
-# Perform the FFT
-signal_fft = fft(signal);
+# Compute FFT
+Fs = 1000;  % Sampling frequency
+N = length(t);
+frequencies = (-Fs/2):(Fs/N):(Fs/2 - Fs/N);
+fft_result = fftshift(fft(gaussian));
 
-# Calculate the frequency axis
-fs = 1 / (t(2) - t(1)); # Sampling frequency
-frequencies = fs * (0:(length(signal)/2)) / length(signal); # Frequency axis
-
-# Plot the original complex signal
-subplot(2, 1, 1);
-plot(t, signal);
-title('Complex Signal');
+# Plot the Gaussian and its FFT
+figure;
+subplot(2,1,1);
+plot(t, gaussian);
+title('Gaussian Function');
 xlabel('Time');
 ylabel('Amplitude');
 
-# Plot the frequency-domain representation
-subplot(2, 1, 2);
-plot(frequencies, abs(signal_fft(1:length(signal)/2 + 1)));
-title('Frequency Domain Representation (FFT)');
+subplot(2,1,2);
+plot(frequencies, abs(fft_result));
+title('FFT of Gaussian');
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
+xlim([-50, 50]); % Limit the x-axis for better visualization
